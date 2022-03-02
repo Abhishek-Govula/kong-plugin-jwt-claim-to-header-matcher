@@ -132,12 +132,12 @@ local function do_wid_validation(conf)
 
   local claims = jwt.claims
   
-  kong.log.debug("WID from claims" .. claims["wid"]);
-  kong.log.debug("WID from header" .. kong.request.get_header("wid"));
   -- Checking if the request wid is same as claims wid
-  if claims["wid"] == "nil" then
+  if (claims["wid"] == nil or claims["wid"] == "") then
+    kong.log.debug("WID from claims is nil");
     return false, { status = 401, message = "WID missing in token" }
-  elseif kong.request.get_header("wid") == "nil" then
+  elseif (kong.request.get_header("wid") == nil or kong.request.get_header("wid") == "") then
+    kong.log.debug("WID from headers is nil");
     return false, { status = 401, message = "WID missing in header" }
   elseif claims["wid"] == kong.request.get_header("wid") then
     return true
