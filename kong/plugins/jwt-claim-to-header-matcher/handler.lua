@@ -135,7 +135,7 @@ local function do_wid_validation(conf)
   -- Checking if the request wid is same as claims wid
   if claims["wid"] == "nil" then
     return false, { status = 401, message = "WID missing in token" }
-  elseif claims["wid"] == kong.request.get_header("wid")
+  elseif claims["wid"] == kong.request.get_header("wid") then
     return true
   end
   return false
