@@ -26,7 +26,7 @@ local re_gmatch = ngx.re.gmatch
 
 local plugin = {
   PRIORITY = 1000, -- set the plugin priority, which determines plugin execution order
-  VERSION = "0.1", -- version in X.Y.Z format. Check hybrid-mode compatibility requirements.
+  VERSION = "0.2.0", -- version in X.Y.Z format. Check hybrid-mode compatibility requirements.
 }
 
 

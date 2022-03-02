@@ -9,7 +9,7 @@ return {
     { config = {
         type = "record",
         fields = {
-          { rename_body_key = colon_string_record },
+          { keys_to_check = colon_string_record },
         },
       },
     },
