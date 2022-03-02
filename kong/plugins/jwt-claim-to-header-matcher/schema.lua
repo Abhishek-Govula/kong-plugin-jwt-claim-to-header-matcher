@@ -1,8 +1,15 @@
-local typedefs = require "kong.db.schema.typedefs"
+local colon_string_array = {
+  type = "array",
+  default = {},
+  elements = { type = "string", match = "^[^:]+:.*$" },
+}
 
--- Grab pluginname from module name
-local plugin_name = ({...})[1]:match("^kong%.plugins%.([^%.]+)")
-
+local colon_string_record = {
+  type = "record",
+  fields = {
+    { json = colon_string_array },
+  },
+}
 return {
   name = "jwt-claim-to-header-matcher",
   fields = {
