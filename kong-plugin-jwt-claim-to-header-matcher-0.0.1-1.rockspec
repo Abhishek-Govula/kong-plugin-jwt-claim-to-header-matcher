@@ -33,6 +33,6 @@ build = {
   modules = {
     ["kong.plugins."..pluginName..".handler"] = "kong/plugins/"..pluginName.."/handler.lua",
     ["kong.plugins."..pluginName..".schema"] = "kong/plugins/"..pluginName.."/schema.lua",
-    ["kong.plugins."..pluginName..".body_modifier"] = "kong/plugins/"..pluginName.."/jwt_parser.lua",
+    ["kong.plugins."..pluginName..".jwt_parser"] = "kong/plugins/"..pluginName.."/jwt_parser.lua",
   }
 }
