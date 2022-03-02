@@ -6,7 +6,12 @@ local plugin_name = ({...})[1]:match("^kong%.plugins%.([^%.]+)")
 return {
   name = "jwt-claim-to-header-matcher",
   fields = {
-  },
-  entity_checks = {
+    { config = {
+        type = "record",
+        fields = {
+          { rename_body_key = colon_string_record },
+        },
+      },
+    },
   },
 }
