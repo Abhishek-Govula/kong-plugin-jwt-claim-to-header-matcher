@@ -142,7 +142,7 @@ local function do_wid_validation(conf)
   elseif claims["wid"] == kong.request.get_header("wid") then
     return true
   end
-  return false { status = 401, message = "Unauthorised from JWT and Header validation" }
+  return false, { status = 401, message = "Unauthorised from JWT and Header validation" }
 end
 
 
