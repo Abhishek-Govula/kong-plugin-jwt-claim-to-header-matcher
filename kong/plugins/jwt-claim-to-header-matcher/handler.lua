@@ -152,7 +152,11 @@ function plugin:access(plugin_conf)
   -- your custom code here
   kong.log.inspect(plugin_conf)   -- check the logs for a pretty-printed config!
   -- Reading the access token
-  do_wid_validation(plugin_conf)
+  local ok, err = do_wid_validation(plugin_conf)
+  
+  if not ok then
+    return kong.response.exit(err.status, err.errors or { message = err.message })
+  end
 
 end --]]
 
