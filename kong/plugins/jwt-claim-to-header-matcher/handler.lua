@@ -90,13 +90,11 @@ local function retrieve_token(conf)
     local iterator, iter_err = re_gmatch(token_header, "\\s*[Bb]earer\\s+(.+)")
     if not iterator then
       kong.log.err(iter_err)
-      break
     end
 
     local m, err = iterator()
     if err then
       kong.log.err(err)
-      break
     end
 
     if m and #m > 0 then
@@ -139,6 +137,7 @@ local function do_wid_validation(conf)
     return false, { status = 401, message = "WID missing in token" }
   elseif claims["wid"] == kong.request.get_header("wid")
     return true
+  end
   return false
 end
 
