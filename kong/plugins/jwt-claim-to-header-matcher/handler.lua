@@ -42,7 +42,7 @@ local plugin = {
 function plugin:init_worker()
 
   -- your custom code here
-  kong.log.debug("saying hi from the 'init_worker' handler")
+  -- kong.log.debug("saying hi from the 'init_worker' handler")
 
 end --]]
 
@@ -120,7 +120,7 @@ local function do_wid_validation(conf)
     end
   end
 
-  kong.log.debug("Original Token" .. token)
+  -- kong.log.debug("Original Token" .. token)
 
   
 
@@ -148,9 +148,6 @@ end
 
 -- runs in the 'access_by_lua_block'
 function plugin:access(plugin_conf)
-
-  -- your custom code here
-  kong.log.inspect(plugin_conf)   -- check the logs for a pretty-printed config!
   -- Reading the access token
   local ok, err = do_wid_validation(plugin_conf)
   
