@@ -143,7 +143,10 @@ end
 
 local function do_rootorg_header_validation()
   -- Checking if multiple root orgs are sent in the header
-  local rootorg_header = kong.request.get_header("rootOrg");
+  local request_headers = kong.request.get_headers()
+  local rootorg_header = request_headers["rootOrg"]
+
+  log.debug("ALL headers " .. request_headers);
   log.debug("Root Org headers " .. rootorg_header);
   if type(rootorg_header) == "table" then
     kong.log.debug("Multiple root org detected in request");
