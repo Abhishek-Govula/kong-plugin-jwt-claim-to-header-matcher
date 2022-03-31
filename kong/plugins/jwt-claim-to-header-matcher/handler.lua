@@ -120,10 +120,6 @@ local function do_wid_validation(conf)
     end
   end
 
-  -- kong.log.debug("Original Token" .. token)
-
-  
-
   -- Decode token to find out who the caller is
   local jwt, err = jwt_decoder:new(token)
   if err then
@@ -145,13 +141,28 @@ local function do_wid_validation(conf)
   return false, { status = 401, message = "Unauthorised from JWT and Header validation" }
 end
 
+local function do_rootorg_header_validation()
+  -- Checking if multiple root orgs are sent in the header
+  local rootorg_header = kong.request.get_header("rootOrg");
+  if type(rootorg_header) == "table" then
+    kong.log.debug("Multiple root org detected in request");
+    return false, { status = 400, message = "Multiple root org detected in request" }
+  end
+  return true
+end
 
 -- runs in the 'access_by_lua_block'
 function plugin:access(plugin_conf)
-  -- Reading the access token
+  -- Validating the wid in header matches the user's token.
   local ok, err = do_wid_validation(plugin_conf)
   
   if not ok then
+    return kong.response.exit(err.status, err.errors or { message = err.message })
+  end
+
+  -- Validating if the rootorg header is correct.
+  local rootorg_ok, rootorg_err = do_rootorg_header_validation()
+  if not rootorg_ok then
     return kong.response.exit(err.status, err.errors or { message = err.message })
   end
 
