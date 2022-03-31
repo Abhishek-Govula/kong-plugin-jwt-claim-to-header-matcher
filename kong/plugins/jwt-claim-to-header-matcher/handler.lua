@@ -128,6 +128,7 @@ local function do_wid_validation(conf)
 
   local claims = jwt.claims
   
+  log.debug("RootOrg header" .. kong.request.get_header("rootOrg"))
   -- Checking if the request wid is same as claims wid
   if (claims["wid"] == nil or claims["wid"] == "") then
     kong.log.debug("WID from claims is nil");
@@ -146,8 +147,6 @@ local function do_rootorg_header_validation()
   local request_headers = kong.request.get_headers()
   local rootorg_header = request_headers["rootOrg"]
 
-  log.debug("ALL headers " .. request_headers);
-  log.debug("Root Org headers " .. rootorg_header);
   if type(rootorg_header) == "table" then
     kong.log.debug("Multiple root org detected in request");
     return false, { status = 400, message = "Multiple root org detected in request" }
