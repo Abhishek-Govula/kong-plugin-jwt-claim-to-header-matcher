@@ -142,15 +142,15 @@ local function do_wid_validation(conf)
 end
 
 local function do_rootorg_header_validation()
-  -- Checking if multiple root orgs are sent in the header  
-  local rootorg_header = kong.request.get_header("rootorg")
+  -- Checking if multiple root orgs are sent in the header 
+  local request_headers = kong.request.get_headers()
+  local rootorg_header = request_headers["rootorg"] 
 
   if type(rootorg_header) == "table" then
     kong.log.debug("Multiple root org detected in request");
     return false, { status = 400, message = "Multiple root org detected in request" }
   else
     kong.log.debug("Root Org " .. rootorg_header);
-    return false, { status = 401, message = "WID missing in header" }
   end
   return true
 end
