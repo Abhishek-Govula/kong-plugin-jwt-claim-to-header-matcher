@@ -82,7 +82,6 @@ end --]]
 -- @return err
 local function retrieve_token(conf)
   local request_headers = kong.request.get_headers()
-  kong.log.debug("RootOrg header" .. request_headers["rootorg"])
   local token_header = request_headers["authorization"]
   if token_header then
     if type(token_header) == "table" then
@@ -143,9 +142,8 @@ local function do_wid_validation(conf)
 end
 
 local function do_rootorg_header_validation()
-  -- Checking if multiple root orgs are sent in the header
-  local request_headers = kong.request.get_headers()
-  local rootorg_header = request_headers["rootOrg"]
+  -- Checking if multiple root orgs are sent in the header  
+  local rootorg_header = kong.request.get_header("rootorg")
 
   if type(rootorg_header) == "table" then
     kong.log.debug("Multiple root org detected in request");
