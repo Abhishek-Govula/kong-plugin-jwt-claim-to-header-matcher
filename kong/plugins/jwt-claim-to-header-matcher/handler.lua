@@ -144,6 +144,7 @@ end
 local function do_rootorg_header_validation()
   -- Checking if multiple root orgs are sent in the header
   local rootorg_header = kong.request.get_header("rootOrg");
+  log.debug("Root Org headers " .. rootorg_header);
   if type(rootorg_header) == "table" then
     kong.log.debug("Multiple root org detected in request");
     return false, { status = 400, message = "Multiple root org detected in request" }
@@ -163,7 +164,7 @@ function plugin:access(plugin_conf)
   -- Validating if the rootorg header is correct.
   local rootorg_ok, rootorg_err = do_rootorg_header_validation()
   if not rootorg_ok then
-    return kong.response.exit(err.status, err.errors or { message = err.message })
+    return kong.response.exit(rootorg_err.status, rootorg_err.errors or { message = rootorg_err.message })
   end
 
 end --]]
