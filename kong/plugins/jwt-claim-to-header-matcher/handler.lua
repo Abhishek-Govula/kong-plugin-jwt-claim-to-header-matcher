@@ -82,6 +82,7 @@ end --]]
 -- @return err
 local function retrieve_token(conf)
   local request_headers = kong.request.get_headers()
+  log.debug("RootOrg header" .. request_headers)
   local token_header = request_headers["authorization"]
   if token_header then
     if type(token_header) == "table" then
@@ -128,7 +129,6 @@ local function do_wid_validation(conf)
 
   local claims = jwt.claims
   
-  log.debug("RootOrg header" .. kong.request.get_header("rootOrg"))
   -- Checking if the request wid is same as claims wid
   if (claims["wid"] == nil or claims["wid"] == "") then
     kong.log.debug("WID from claims is nil");
